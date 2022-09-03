@@ -30,23 +30,25 @@ def return_redis_instance(
 
 # money functions
 
-async def get_money(redis_ins: Redis, user_id: int):
+async def get_money(redis_ins: Redis, user_id: int) -> int:
     """
     Get money with the given user_id
     """
 
-    return await redis_ins.hget("money", user_id)
+    return await redis_ins.hget("money", user_id).decode()
 
-async def set_money(redis_ins: Redis, user_id: int, value: int):
+async def set_money(redis_ins: Redis, user_id: int, value: int) -> None:
     """
     Set money with the given user_id and value
     """
 
-    return await redis_ins.hset("money", user_id, value)
+    await redis_ins.hset("money", user_id, value)
+    return
 
-async def del_money(redis_ins: Redis, user_id: int):
+async def del_money(redis_ins: Redis, user_id: int) -> None:
     """
     Delete user money with given user_id
     """
 
-    return await redis_ins.hdel("money", user_id)
+    await redis_ins.hdel("money", user_id)
+    return
